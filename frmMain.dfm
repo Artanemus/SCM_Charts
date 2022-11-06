@@ -7,12 +7,13 @@ object Main: TMain
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -16
+  Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 21
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -27,7 +28,25 @@ object Main: TMain
     DesignSize = (
       1293
       71)
-    object Button1: TButton
+    object DBtxtSwimClubCaption: TDBText
+      Left = 168
+      Top = 0
+      Width = 425
+      Height = 23
+    end
+    object DBtxtSwimClubNickName: TDBText
+      Left = 168
+      Top = 22
+      Width = 425
+      Height = 23
+    end
+    object DBtxtStartOfSwimSeason: TDBText
+      Left = 168
+      Top = 44
+      Width = 425
+      Height = 23
+    end
+    object btnAbout: TButton
       Left = 1180
       Top = 15
       Width = 48
@@ -38,6 +57,7 @@ object Main: TMain
       ImageName = 'Info'
       Images = VirtualImageList1
       TabOrder = 0
+      OnClick = btnAboutClick
       ExplicitLeft = 1080
     end
     object Button2: TButton
@@ -128,11 +148,43 @@ object Main: TMain
       Height = 456
       Title.Text.Strings = (
         'TDBChart')
+      View3D = False
+      View3DOptions.Elevation = 315
+      View3DOptions.Orthogonal = False
+      View3DOptions.Perspective = 0
+      View3DOptions.Rotation = 360
       Align = alClient
       TabOrder = 0
       ExplicitHeight = 384
       DefaultCanvas = 'TGDIPlusCanvas'
+      PrintMargins = (
+        15
+        18
+        15
+        18)
       ColorPaletteIndex = 13
+      object Series1: TPieSeries
+        XValues.Order = loAscending
+        YValues.Name = 'Pie'
+        YValues.Order = loNone
+        Frame.InnerBrush.BackColor = clRed
+        Frame.InnerBrush.Gradient.EndColor = clGray
+        Frame.InnerBrush.Gradient.MidColor = clWhite
+        Frame.InnerBrush.Gradient.StartColor = 4210752
+        Frame.InnerBrush.Gradient.Visible = True
+        Frame.MiddleBrush.BackColor = clYellow
+        Frame.MiddleBrush.Gradient.EndColor = 8553090
+        Frame.MiddleBrush.Gradient.MidColor = clWhite
+        Frame.MiddleBrush.Gradient.StartColor = clGray
+        Frame.MiddleBrush.Gradient.Visible = True
+        Frame.OuterBrush.BackColor = clGreen
+        Frame.OuterBrush.Gradient.EndColor = 4210752
+        Frame.OuterBrush.Gradient.MidColor = clWhite
+        Frame.OuterBrush.Gradient.StartColor = clSilver
+        Frame.OuterBrush.Gradient.Visible = True
+        Frame.Width = 4
+        OtherSlice.Legend.Visible = False
+      end
     end
   end
   object ImageCollection1: TImageCollection
@@ -1040,7 +1092,7 @@ object Main: TMain
               19C30000000049454E44AE426082}
           end>
       end>
-    Left = 560
+    Left = 992
     Top = 24
   end
   object VirtualImageList1: TVirtualImageList
@@ -1074,7 +1126,7 @@ object Main: TMain
     ImageCollection = ImageCollection1
     Width = 48
     Height = 48
-    Left = 656
+    Left = 1096
     Top = 24
   end
 end
