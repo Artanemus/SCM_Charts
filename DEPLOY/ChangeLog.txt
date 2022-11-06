@@ -1,0 +1,8 @@
+ChangeLog.
+
+2022/...
+Prepared release v1.0.0.0
+....
+
+Cheers Artanemus.
+Have a great club night :-)
