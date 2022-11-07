@@ -15,6 +15,8 @@ type
     scmConnection: TFDConnection;
     qrySwimClub: TFDQuery;
     dsSwimClub: TDataSource;
+    qryMetersSwum: TFDQuery;
+    dsMetersSwum: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -51,6 +53,8 @@ uses
 procedure TSCM.ActivateTable;
 begin
   FIsActive := true;
+  qrySwimClub.Connection := scmConnection;
+  qryMetersSwum.Connection := scmConnection;
 end;
 
 procedure TSCM.DataModuleCreate(Sender: TObject);

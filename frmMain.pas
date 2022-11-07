@@ -20,15 +20,16 @@ type
     btnAbout: TButton;
     Button2: TButton;
     Button3: TButton;
-    Button4: TButton;
+    btnMember: TButton;
     GridPanel1: TGridPanel;
-    DBChart1: TDBChart;
+    PieMeters: TDBChart;
     DBtxtSwimClubCaption: TDBText;
     DBtxtSwimClubNickName: TDBText;
     DBtxtStartOfSwimSeason: TDBText;
     Series1: TPieSeries;
     procedure FormCreate(Sender: TObject);
     procedure btnAboutClick(Sender: TObject);
+    procedure btnMemberClick(Sender: TObject);
   private
     { Private declarations }
     fdefaultStyleName: string;
@@ -48,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses dlgBasicLogin, Utility, Vcl.Themes, dlgAbout, System.UITypes,
-  FireDAC.Stan.Param;
+  FireDAC.Stan.Param, dlgPickMember;
 
 procedure TMain.btnAboutClick(Sender: TObject);
 var
@@ -57,6 +58,29 @@ begin
   dlg := TAbout.Create(Self);
   dlg.ShowModal;
   dlg.Free;
+end;
+
+procedure TMain.btnMemberClick(Sender: TObject);
+var
+dlg: TPickMember;
+begin
+  // select the member
+  dlg := TPickMember.Create(Self);
+  dlg.SwimClubID := fSwimClubID;
+  dlg.ShowModal;
+  if dlg.MemberID > 0 then
+  begin
+    SCM.qryMetersSwum.Close;
+    SCM.qryMetersSwum.ParamByName('MEMBERID').AsInteger := dlg.MemberID;
+    SCM.qryMetersSwum.Prepare;
+    SCM.qryMetersSwum.Open;
+    if SCM.qryMetersSwum.Active then
+    begin
+      PieMeters.Title.Text.Clear;
+      PieMeters.Title.Text.Add(SCM.qryMetersSwum.FieldByName('FName').AsString);
+    end;
+
+  end;
 end;
 
 procedure TMain.FormCreate(Sender: TObject);

@@ -4,7 +4,7 @@ object PickMember: TPickMember
   BorderStyle = bsDialog
   Caption = 'Pick club members for report.'
   ClientHeight = 587
-  ClientWidth = 661
+  ClientWidth = 485
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,16 +20,6 @@ object PickMember: TPickMember
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 21
-  object lbllboxR: TLabel
-    Left = 384
-    Top = 17
-    Width = 241
-    Height = 40
-    Alignment = taCenter
-    AutoSize = False
-    Caption = 'Members selected for report.'
-    WordWrap = True
-  end
   object lboxL: TListBox
     Left = 32
     Top = 62
@@ -41,68 +31,13 @@ object PickMember: TPickMember
     Sorted = True
     TabOrder = 0
   end
-  object lboxR: TListBox
-    Left = 384
-    Top = 62
-    Width = 241
-    Height = 427
-    DragMode = dmAutomatic
-    ItemHeight = 21
-    MultiSelect = True
-    Sorted = True
-    TabOrder = 1
-  end
-  object btnScrDest: TButton
-    Left = 304
-    Top = 62
-    Width = 48
-    Height = 48
-    ImageAlignment = iaCenter
-    ImageIndex = 0
-    ImageName = 'Arrow01'
-    Images = VirtualImageList1
-    TabOrder = 2
-  end
-  object btnScrDestAll: TButton
-    Left = 304
-    Top = 135
-    Width = 48
-    Height = 48
-    ImageAlignment = iaCenter
-    ImageIndex = 2
-    ImageName = 'Arrow03'
-    Images = VirtualImageList1
-    TabOrder = 3
-  end
-  object btnDestSrc: TButton
-    Left = 304
-    Top = 208
-    Width = 48
-    Height = 48
-    ImageAlignment = iaCenter
-    ImageIndex = 1
-    ImageName = 'Arrow02'
-    Images = VirtualImageList1
-    TabOrder = 4
-  end
-  object btnDestSrcAll: TButton
-    Left = 304
-    Top = 281
-    Width = 48
-    Height = 48
-    ImageAlignment = iaCenter
-    ImageIndex = 3
-    ImageName = 'Arrow04'
-    Images = VirtualImageList1
-    TabOrder = 5
-  end
   object Button7: TButton
-    Left = 541
-    Top = 536
+    Left = 189
+    Top = 528
     Width = 84
     Height = 33
     Caption = 'Ok'
-    TabOrder = 6
+    TabOrder = 1
     OnClick = Button7Click
   end
   object edtSearch: TEdit
@@ -113,7 +48,7 @@ object PickMember: TPickMember
     Hint = 'Search for member.'
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 7
+    TabOrder = 2
     TextHint = 'Enter search string.'
     OnChange = edtSearchChange
   end
@@ -126,7 +61,7 @@ object PickMember: TPickMember
     ImageIndex = 0
     ImageName = 'outline_search_black_48dp'
     Images = VirtualImageList2
-    TabOrder = 8
+    TabOrder = 3
   end
   object qryMemberList: TFDQuery
     ActiveStoredUsage = [auDesignTime]
@@ -144,8 +79,8 @@ object PickMember: TPickMember
       '      AND IsActive = 1'
       '      AND Member.IsSwimmer = 1'
       '      AND MembershipNum IS NOT NULL; ')
-    Left = 56
-    Top = 504
+    Left = 304
+    Top = 208
   end
   object ImageCollection1: TImageCollection
     Images = <
@@ -274,8 +209,8 @@ object PickMember: TPickMember
               98521B94AB86D30000000049454E44AE426082}
           end>
       end>
-    Left = 136
-    Top = 504
+    Left = 304
+    Top = 144
   end
   object VirtualImageList1: TVirtualImageList
     DisabledGrayscale = False
@@ -314,8 +249,8 @@ object PickMember: TPickMember
     ImageCollection = ImageCollection1
     Width = 48
     Height = 48
-    Left = 216
-    Top = 504
+    Left = 304
+    Top = 80
   end
   object VirtualImageList2: TVirtualImageList
     DisabledGrayscale = False
@@ -330,7 +265,7 @@ object PickMember: TPickMember
     ImageCollection = ImageCollection1
     Width = 28
     Height = 28
-    Left = 328
-    Top = 512
+    Left = 304
+    Top = 24
   end
 end

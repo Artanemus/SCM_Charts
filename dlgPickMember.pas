@@ -33,18 +33,12 @@ type
 
   TPickMember = class(TForm)
     lboxL: TListBox;
-    lboxR: TListBox;
-    btnScrDest: TButton;
-    btnScrDestAll: TButton;
-    btnDestSrc: TButton;
-    btnDestSrcAll: TButton;
     qryMemberList: TFDQuery;
     Button7: TButton;
     ImageCollection1: TImageCollection;
     VirtualImageList1: TVirtualImageList;
     edtSearch: TEdit;
     Button5: TButton;
-    lbllboxR: TLabel;
     VirtualImageList2: TVirtualImageList;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -57,9 +51,13 @@ type
     { Private declarations }
     scmMemberList: TObjectList;
     fMaxAllowToPick: integer;
+    fSwimClubID, fMemberID: integer;
     procedure ReadPreferences(iniFileName: string);
+
   public
     { Public declarations }
+    property SwimClubID: integer read FSwimClubID write FSwimClubID;
+    property MemberID: integer read fMemberID write fMemberID;
   end;
 
 var

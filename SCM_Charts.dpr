@@ -20,6 +20,5 @@ begin
   Application.Title := 'SCM_Charts';
   TStyleManager.TrySetStyle('Amethyst Kamri');
   Application.CreateForm(TMain, Main);
-  Application.CreateForm(TAbout, About);
   Application.Run;
 end.

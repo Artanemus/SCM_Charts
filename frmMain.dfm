@@ -2,8 +2,8 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'Main'
-  ClientHeight = 1040
-  ClientWidth = 1293
+  ClientHeight = 1047
+  ClientWidth = 1346
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,16 +17,16 @@ object Main: TMain
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1293
+    Width = 1346
     Height = 73
     Align = alTop
     BevelEdges = [beBottom]
     BevelKind = bkFlat
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 1193
+    ExplicitWidth = 1293
     DesignSize = (
-      1293
+      1346
       71)
     object DBtxtSwimClubCaption: TDBText
       Left = 168
@@ -47,7 +47,7 @@ object Main: TMain
       Height = 23
     end
     object btnAbout: TButton
-      Left = 1180
+      Left = 1233
       Top = 15
       Width = 48
       Height = 48
@@ -58,7 +58,7 @@ object Main: TMain
       Images = VirtualImageList1
       TabOrder = 0
       OnClick = btnAboutClick
-      ExplicitLeft = 1080
+      ExplicitLeft = 1180
     end
     object Button2: TButton
       Left = 14
@@ -72,7 +72,7 @@ object Main: TMain
       TabOrder = 1
     end
     object Button3: TButton
-      Left = 1234
+      Left = 1287
       Top = 15
       Width = 48
       Height = 48
@@ -82,39 +82,39 @@ object Main: TMain
       ImageName = 'outline_refresh_black_48dp'
       Images = VirtualImageList1
       TabOrder = 2
-      ExplicitLeft = 1134
+      ExplicitLeft = 1234
     end
-    object Button4: TButton
+    object btnMember: TButton
       Left = 68
       Top = 15
       Width = 48
       Height = 48
-      Anchors = [akTop, akRight]
       ImageAlignment = iaCenter
       ImageIndex = 3
       ImageName = 'ic_group'
       Images = VirtualImageList1
       TabOrder = 3
+      OnClick = btnMemberClick
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 986
-    Width = 1293
+    Top = 993
+    Width = 1346
     Height = 54
     Align = alBottom
     BevelEdges = [beTop]
     BevelKind = bkFlat
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 584
-    ExplicitWidth = 1193
+    ExplicitTop = 986
+    ExplicitWidth = 1293
   end
   object GridPanel1: TGridPanel
     Left = 0
     Top = 73
-    Width = 1293
-    Height = 913
+    Width = 1346
+    Height = 920
     Align = alClient
     ColumnCollection = <
       item
@@ -126,7 +126,7 @@ object Main: TMain
     ControlCollection = <
       item
         Column = 0
-        Control = DBChart1
+        Control = PieMeters
         Row = 0
       end>
     RowCollection = <
@@ -137,17 +137,19 @@ object Main: TMain
         Value = 50.000000000000000000
       end>
     TabOrder = 2
-    ExplicitLeft = 360
-    ExplicitTop = 120
-    ExplicitWidth = 185
-    ExplicitHeight = 41
-    object DBChart1: TDBChart
+    ExplicitWidth = 1293
+    ExplicitHeight = 913
+    object PieMeters: TDBChart
       Left = 1
       Top = 1
-      Width = 646
-      Height = 456
+      Width = 672
+      Height = 459
+      SubTitle.Font.Height = -13
+      SubTitle.Text.Strings = (
+        'Meters Swum for the Swimming Season')
+      Title.Font.Height = -13
       Title.Text.Strings = (
-        'TDBChart')
+        '#MEMBERS FULL NAME#')
       View3D = False
       View3DOptions.Elevation = 315
       View3DOptions.Orthogonal = False
@@ -155,7 +157,9 @@ object Main: TMain
       View3DOptions.Rotation = 360
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 384
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 496
       DefaultCanvas = 'TGDIPlusCanvas'
       PrintMargins = (
         15
@@ -164,9 +168,14 @@ object Main: TMain
         18)
       ColorPaletteIndex = 13
       object Series1: TPieSeries
+        Marks.Font.Height = -16
+        DataSource = SCM.qryMetersSwum
+        Title = 'MeterSwum'
+        XLabelsSource = 'Stroke'
         XValues.Order = loAscending
         YValues.Name = 'Pie'
         YValues.Order = loNone
+        YValues.ValueSource = 'Meters'
         Frame.InnerBrush.BackColor = clRed
         Frame.InnerBrush.Gradient.EndColor = clGray
         Frame.InnerBrush.Gradient.MidColor = clWhite
