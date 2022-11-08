@@ -9,7 +9,7 @@ uses
   Vcl.ImgList, Vcl.VirtualImageList, Vcl.BaseImageCollection,
   Vcl.ImageCollection, Vcl.ExtCtrls, VclTee.TeeGDIPlus, Data.DB,
   VclTee.TeEngine, VclTee.TeeProcs, VclTee.Chart, VclTee.DBChart, dmSCM,
-  Vcl.DBCtrls, VCLTee.Series;
+  Vcl.DBCtrls, VCLTee.Series, VCLTee.TeeSpline, Vcl.Grids, Vcl.DBGrids;
 
 type
   TMain = class(TForm)
@@ -27,6 +27,33 @@ type
     DBtxtSwimClubNickName: TDBText;
     DBtxtStartOfSwimSeason: TDBText;
     Series1: TPieSeries;
+    DBChart1: TDBChart;
+    LineSeries1: TLineSeries;
+    Panel3: TPanel;
+    Button1: TButton;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Button4: TButton;
+    Panel6: TPanel;
+    DBgridHistoryPB: TDBGrid;
+    Panel7: TPanel;
+    DBChart2: TDBChart;
+    Series2: TBarSeries;
+    Series3: TBarSeries;
+    Series4: TBarSeries;
+    Series5: TBarSeries;
+    Panel8: TPanel;
+    Button5: TButton;
+    Button6: TButton;
+    Button7: TButton;
+    Button8: TButton;
+    Button9: TButton;
+    Button10: TButton;
+    Button11: TButton;
+    Button12: TButton;
+    Button13: TButton;
+    Button14: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAboutClick(Sender: TObject);
     procedure btnMemberClick(Sender: TObject);
@@ -176,3 +203,111 @@ begin
 end;
 
 end.
+
+(*
+
+void __fastcall TMemberDlg::UpdateChart() {
+	int DistanceID, StrokeID;
+	String s;
+	if (qryChart->Active)
+		qryChart->Close();
+	DistanceID = fArrayDistance[cmboDistance->ItemIndex];
+	qryChart->ParamByName("DISTANCEID")->AsInteger = DistanceID;
+	StrokeID = fArrayStroke[cmboStroke->ItemIndex];
+	qryChart->ParamByName("STROKEID")->AsInteger = StrokeID;
+	qryChart->ParamByName("MEMBERID")->AsInteger =
+		qryMember->FieldByName("MemberID")->AsInteger;
+	qryChart->Prepare();
+	qryChart->Open();
+	DBChart1->Title->Text->Clear();
+	DBChart1->Title->Text->Add(qryMember->FieldByName("FName")->AsString);
+	DBChart1->SubTitle->Text->Clear();
+	if (qryChart->IsEmpty()) {
+		DBChart1->SubTitle->Text->Add("No data for this distance and stroke");
+	}
+	else {
+		s = qryChart->FieldByName("cDistance")->AsString + " - " +
+			qryChart->FieldByName("cStroke")->AsString;
+		DBChart1->SubTitle->Text->Add(s);
+	}
+	DBChart1->RefreshData();
+}
+
+
+
+bool __fastcall TMemberDlg::LocateMemberID(int aMemberID) {
+	bool LocateSuccess;
+	TLocateOptions SearchOptions;
+	Variant locvalues[2];
+	LocateSuccess = false;
+	// .. SwimClubID
+	if (dsMember->DataSet->Active) {
+		locvalues[0] = Variant(aMemberID);
+		locvalues[1] =
+			Variant(dsMember->DataSet->FieldByName("SwimClubID")->AsInteger);
+		SearchOptions.Clear();
+		SearchOptions << loPartialKey;
+		try {
+			LocateSuccess = dsMember->DataSet->Locate("MemberID;SwimClubID",
+				VarArrayOf(locvalues, 1), SearchOptions);
+		}
+		catch (...) {
+			LocateSuccess = false;
+		}
+	}
+	return LocateSuccess;
+}
+
+void __fastcall TMemberDlg::DBChart1GetAxisLabel(TChartAxis *Sender,
+	TChartSeries *Series, int ValueIndex, UnicodeString &LabelText) {
+	TFDQuery *qry;
+	TDateTime dt;
+	TLocateOptions SearchOptions;
+	Variant v[1]; // VarArray
+	bool Success;
+	// replace axis label with session date
+	if (Sender == DBChart1->BottomAxis) {
+		if (Series != nullptr) {
+			if (Series->DataSource != nullptr) {
+				qry = reinterpret_cast<TFDQuery*>(Series->DataSource);
+				if (qry->Active == true) {
+					v[0] = Variant((ValueIndex + 1));
+					SearchOptions.Clear();
+					Success = qry->Locate("ChartX", VarArrayOf(v, 0),
+						SearchOptions);
+					if (Success) {
+						dt = qry->FieldByName("SessionStart")->AsDateTime;
+						LabelText = dt.DateString();
+					}
+					else {
+						LabelText = "ERR";
+					}
+				}
+			}
+		}
+	}
+}
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+
+void __fastcall TMemberDlg::UpdateMemberPersonalBest(void) {
+	int id;
+	id = dsMember->DataSet->FieldByName("MemberID")->AsInteger;
+	// to improve loading performance of the Member's Dialogue
+	// the 'personal bests' for a member are loaded on demand.
+	if (CurrMemberPersonalBestID != id) {
+		if (qryMemberPBonDemand->Active == true)
+			qryMemberPBonDemand->Close();
+		qryMemberPBonDemand->ParamByName("MEMBERID")->AsInteger = id;
+		// ensures params changes are used
+		qryMemberPBonDemand->Prepare();
+		qryMemberPBonDemand->Open();
+		CurrMemberPersonalBestID = id;
+	}
+	else {
+		// do nothing ...
+	}
+}
+
+*)

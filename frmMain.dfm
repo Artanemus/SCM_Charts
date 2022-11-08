@@ -2,8 +2,8 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'Main'
-  ClientHeight = 1047
-  ClientWidth = 1346
+  ClientHeight = 1107
+  ClientWidth = 1305
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,22 +11,23 @@ object Main: TMain
   Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 21
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1346
+    Width = 1305
     Height = 73
     Align = alTop
     BevelEdges = [beBottom]
     BevelKind = bkFlat
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 1293
+    ExplicitWidth = 1346
     DesignSize = (
-      1346
+      1305
       71)
     object DBtxtSwimClubCaption: TDBText
       Left = 168
@@ -47,7 +48,7 @@ object Main: TMain
       Height = 23
     end
     object btnAbout: TButton
-      Left = 1233
+      Left = 1192
       Top = 15
       Width = 48
       Height = 48
@@ -58,7 +59,7 @@ object Main: TMain
       Images = VirtualImageList1
       TabOrder = 0
       OnClick = btnAboutClick
-      ExplicitLeft = 1180
+      ExplicitLeft = 1233
     end
     object Button2: TButton
       Left = 14
@@ -72,7 +73,7 @@ object Main: TMain
       TabOrder = 1
     end
     object Button3: TButton
-      Left = 1287
+      Left = 1246
       Top = 15
       Width = 48
       Height = 48
@@ -82,7 +83,7 @@ object Main: TMain
       ImageName = 'outline_refresh_black_48dp'
       Images = VirtualImageList1
       TabOrder = 2
-      ExplicitLeft = 1234
+      ExplicitLeft = 1287
     end
     object btnMember: TButton
       Left = 68
@@ -99,22 +100,22 @@ object Main: TMain
   end
   object Panel2: TPanel
     Left = 0
-    Top = 993
-    Width = 1346
+    Top = 1053
+    Width = 1305
     Height = 54
     Align = alBottom
     BevelEdges = [beTop]
     BevelKind = bkFlat
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 986
-    ExplicitWidth = 1293
+    ExplicitTop = 993
+    ExplicitWidth = 1346
   end
   object GridPanel1: TGridPanel
     Left = 0
     Top = 73
-    Width = 1346
-    Height = 920
+    Width = 1305
+    Height = 980
     Align = alClient
     ColumnCollection = <
       item
@@ -126,8 +127,23 @@ object Main: TMain
     ControlCollection = <
       item
         Column = 0
-        Control = PieMeters
+        Control = Panel3
         Row = 0
+      end
+      item
+        Column = 1
+        Control = Panel4
+        Row = 0
+      end
+      item
+        Column = 0
+        Control = Panel6
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = Panel7
+        Row = 1
       end>
     RowCollection = <
       item
@@ -137,62 +153,408 @@ object Main: TMain
         Value = 50.000000000000000000
       end>
     TabOrder = 2
-    ExplicitWidth = 1293
-    ExplicitHeight = 913
-    object PieMeters: TDBChart
+    ExplicitWidth = 1346
+    ExplicitHeight = 920
+    object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 672
-      Height = 459
-      SubTitle.Font.Height = -13
-      SubTitle.Text.Strings = (
-        'Meters Swum for the Swimming Season')
-      Title.Font.Height = -13
-      Title.Text.Strings = (
-        '#MEMBERS FULL NAME#')
-      View3D = False
-      View3DOptions.Elevation = 315
-      View3DOptions.Orthogonal = False
-      View3DOptions.Perspective = 0
-      View3DOptions.Rotation = 360
+      Width = 652
+      Height = 489
       Align = alClient
+      Caption = 'Panel3'
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 496
-      DefaultCanvas = 'TGDIPlusCanvas'
-      PrintMargins = (
-        15
-        18
-        15
-        18)
-      ColorPaletteIndex = 13
-      object Series1: TPieSeries
-        Marks.Font.Height = -16
-        DataSource = SCM.qryMetersSwum
-        Title = 'MeterSwum'
-        XLabelsSource = 'Stroke'
-        XValues.Order = loAscending
-        YValues.Name = 'Pie'
-        YValues.Order = loNone
-        YValues.ValueSource = 'Meters'
-        Frame.InnerBrush.BackColor = clRed
-        Frame.InnerBrush.Gradient.EndColor = clGray
-        Frame.InnerBrush.Gradient.MidColor = clWhite
-        Frame.InnerBrush.Gradient.StartColor = 4210752
-        Frame.InnerBrush.Gradient.Visible = True
-        Frame.MiddleBrush.BackColor = clYellow
-        Frame.MiddleBrush.Gradient.EndColor = 8553090
-        Frame.MiddleBrush.Gradient.MidColor = clWhite
-        Frame.MiddleBrush.Gradient.StartColor = clGray
-        Frame.MiddleBrush.Gradient.Visible = True
-        Frame.OuterBrush.BackColor = clGreen
-        Frame.OuterBrush.Gradient.EndColor = 4210752
-        Frame.OuterBrush.Gradient.MidColor = clWhite
-        Frame.OuterBrush.Gradient.StartColor = clSilver
-        Frame.OuterBrush.Gradient.Visible = True
-        Frame.Width = 4
-        OtherSlice.Legend.Visible = False
+      ExplicitLeft = 287
+      ExplicitTop = 171
+      ExplicitWidth = 409
+      ExplicitHeight = 209
+      object PieMeters: TDBChart
+        Left = 1
+        Top = 1
+        Width = 650
+        Height = 446
+        SubTitle.Font.Height = -13
+        SubTitle.Text.Strings = (
+          'Meters Swum for the Swimming Season')
+        Title.Font.Height = -13
+        Title.Text.Strings = (
+          '#MEMBERS FULL NAME#')
+        View3D = False
+        View3DOptions.Elevation = 315
+        View3DOptions.Orthogonal = False
+        View3DOptions.Perspective = 0
+        View3DOptions.Rotation = 360
+        Align = alClient
+        TabOrder = 0
+        ExplicitWidth = 676
+        ExplicitHeight = 393
+        DefaultCanvas = 'TGDIPlusCanvas'
+        PrintMargins = (
+          15
+          18
+          15
+          18)
+        ColorPaletteIndex = 13
+        object Series1: TPieSeries
+          Marks.Font.Height = -16
+          DataSource = SCM.qryMetersSwum
+          Title = 'MeterSwum'
+          XLabelsSource = 'Stroke'
+          XValues.Order = loAscending
+          YValues.Name = 'Pie'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Meters'
+          Frame.InnerBrush.BackColor = clRed
+          Frame.InnerBrush.Gradient.EndColor = clGray
+          Frame.InnerBrush.Gradient.MidColor = clWhite
+          Frame.InnerBrush.Gradient.StartColor = 4210752
+          Frame.InnerBrush.Gradient.Visible = True
+          Frame.MiddleBrush.BackColor = clYellow
+          Frame.MiddleBrush.Gradient.EndColor = 8553090
+          Frame.MiddleBrush.Gradient.MidColor = clWhite
+          Frame.MiddleBrush.Gradient.StartColor = clGray
+          Frame.MiddleBrush.Gradient.Visible = True
+          Frame.OuterBrush.BackColor = clGreen
+          Frame.OuterBrush.Gradient.EndColor = 4210752
+          Frame.OuterBrush.Gradient.MidColor = clWhite
+          Frame.OuterBrush.Gradient.StartColor = clSilver
+          Frame.OuterBrush.Gradient.Visible = True
+          Frame.Width = 4
+          OtherSlice.Legend.Visible = False
+        end
+      end
+      object Panel5: TPanel
+        Left = 1
+        Top = 447
+        Width = 650
+        Height = 41
+        Align = alBottom
+        Caption = 'Panel5'
+        TabOrder = 1
+        ExplicitLeft = 264
+        ExplicitTop = 208
+        ExplicitWidth = 185
+        object Button1: TButton
+          Left = 12
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'Season'
+          TabOrder = 0
+        end
+        object Button4: TButton
+          Left = 112
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'Full History'
+          TabOrder = 1
+        end
+      end
+    end
+    object Panel4: TPanel
+      Left = 653
+      Top = 1
+      Width = 651
+      Height = 489
+      Align = alClient
+      Caption = 'Panel4'
+      TabOrder = 1
+      ExplicitLeft = 584
+      ExplicitTop = 432
+      ExplicitWidth = 185
+      ExplicitHeight = 41
+      object DBChart1: TDBChart
+        Left = 1
+        Top = 1
+        Width = 649
+        Height = 406
+        SubTitle.Font.Color = clBlack
+        SubTitle.Font.Height = -13
+        SubTitle.Font.Name = 'Segoe UI'
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Font.Name = 'Segoe UI'
+        Title.Text.Strings = (
+          'TDBChart')
+        BottomAxis.DateTimeFormat = 'dd/MM/yy'
+        BottomAxis.LabelsOnAxis = False
+        BottomAxis.LabelStyle = talPointValue
+        BottomAxis.Title.Caption = 'Session Date'
+        BottomAxis.Title.Font.Height = -13
+        BottomAxis.Title.Font.Name = 'Segoe UI'
+        LeftAxis.Increment = 1.000000000000000000
+        LeftAxis.MaximumRound = True
+        LeftAxis.MinimumRound = True
+        View3D = False
+        View3DWalls = False
+        Align = alClient
+        Color = clWhite
+        TabOrder = 0
+        ExplicitWidth = 675
+        ExplicitHeight = 392
+        DefaultCanvas = 'TGDIPlusCanvas'
+        PrintMargins = (
+          15
+          19
+          15
+          19)
+        ColorPaletteIndex = 6
+        object LineSeries1: TLineSeries
+          Legend.Visible = False
+          Marks.Visible = True
+          Marks.AutoPosition = False
+          SeriesColor = clBlack
+          ShowInLegend = False
+          XLabelsSource = 'RaceTimeAsString'
+          Brush.BackColor = clDefault
+          DrawStyle = dsCurve
+          OutLine.Color = clDefault
+          OutLine.Visible = True
+          Pointer.InflateMargins = True
+          Pointer.Style = psHexagon
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'ChartX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Seconds'
+        end
+      end
+      object Panel8: TPanel
+        Left = 1
+        Top = 407
+        Width = 649
+        Height = 81
+        Align = alBottom
+        Caption = 'Panel8'
+        TabOrder = 1
+        ExplicitTop = 408
+        ExplicitWidth = 735
+        object Button5: TButton
+          Left = 20
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'FreeStyle'
+          TabOrder = 0
+        end
+        object Button6: TButton
+          Left = 120
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'BreastStroke'
+          TabOrder = 1
+        end
+        object Button7: TButton
+          Left = 221
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'BackStroke'
+          TabOrder = 2
+        end
+        object Button8: TButton
+          Left = 321
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'ButterFly'
+          TabOrder = 3
+        end
+        object Button9: TButton
+          Left = 422
+          Top = 6
+          Width = 95
+          Height = 29
+          Caption = 'Medley'
+          TabOrder = 4
+        end
+        object Button10: TButton
+          Left = 20
+          Top = 41
+          Width = 95
+          Height = 29
+          Caption = '25m'
+          TabOrder = 5
+        end
+        object Button11: TButton
+          Left = 120
+          Top = 41
+          Width = 95
+          Height = 29
+          Caption = '50m'
+          TabOrder = 6
+        end
+        object Button12: TButton
+          Left = 221
+          Top = 41
+          Width = 95
+          Height = 29
+          Caption = '100m'
+          TabOrder = 7
+        end
+        object Button13: TButton
+          Left = 321
+          Top = 41
+          Width = 95
+          Height = 29
+          Caption = '200m'
+          TabOrder = 8
+        end
+        object Button14: TButton
+          Left = 422
+          Top = 41
+          Width = 95
+          Height = 29
+          Caption = 'S-POINTS'
+          TabOrder = 9
+        end
+      end
+    end
+    object Panel6: TPanel
+      Left = 1
+      Top = 490
+      Width = 652
+      Height = 489
+      Align = alClient
+      Caption = 'Panel6'
+      TabOrder = 2
+      ExplicitLeft = 600
+      ExplicitTop = 432
+      ExplicitWidth = 185
+      ExplicitHeight = 41
+      object Label1: TLabel
+        Left = 15
+        Top = 16
+        Width = 27
+        Height = 273
+        Caption = 'PERSONAL BEST'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Segoe UI'
+        Font.Orientation = 900
+        Font.Style = []
+        ParentFont = False
+      end
+      object DBgridHistoryPB: TDBGrid
+        AlignWithMargins = True
+        Left = 51
+        Top = 11
+        Width = 246
+        Height = 467
+        Margins.Left = 50
+        Margins.Top = 10
+        Margins.Bottom = 10
+        Align = alLeft
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -16
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'EventStr'
+            Title.Caption = 'Event'
+            Width = 140
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PB'
+            Width = 80
+            Visible = True
+          end>
+      end
+    end
+    object Panel7: TPanel
+      Left = 653
+      Top = 490
+      Width = 651
+      Height = 489
+      Align = alClient
+      Caption = 'Panel7'
+      TabOrder = 3
+      ExplicitLeft = 648
+      ExplicitTop = 472
+      ExplicitWidth = 185
+      ExplicitHeight = 41
+      object DBChart2: TDBChart
+        Left = 1
+        Top = 1
+        Width = 649
+        Height = 487
+        BackWall.Pen.Visible = False
+        BottomWall.Brush.Gradient.EndColor = clSilver
+        BottomWall.Brush.Gradient.StartColor = clGray
+        BottomWall.Brush.Gradient.Visible = True
+        BottomWall.Pen.Color = clGray
+        BottomWall.Size = 4
+        Gradient.Direction = gdFromTopLeft
+        Gradient.EndColor = clWhite
+        Gradient.StartColor = clSilver
+        Gradient.Visible = True
+        LeftWall.Brush.Gradient.EndColor = clSilver
+        LeftWall.Brush.Gradient.StartColor = clGray
+        LeftWall.Brush.Gradient.Visible = True
+        LeftWall.Color = clWhite
+        LeftWall.Pen.Color = clGray
+        LeftWall.Size = 4
+        Title.Text.Strings = (
+          'TDBChart')
+        BottomAxis.Grid.Color = 14540253
+        BottomAxis.LabelsFormat.Font.Color = clGray
+        BottomAxis.LabelsFormat.Font.Height = -9
+        BottomAxis.LabelStyle = talValue
+        Frame.Visible = False
+        LeftAxis.Grid.Color = 14540253
+        LeftAxis.LabelsFormat.Font.Color = clGray
+        LeftAxis.LabelsFormat.Font.Height = -9
+        LeftAxis.LabelStyle = talValue
+        View3D = False
+        Zoom.Animated = True
+        Align = alClient
+        BevelWidth = 2
+        Color = clWhite
+        TabOrder = 0
+        ExplicitLeft = 128
+        ExplicitTop = 24
+        ExplicitWidth = 400
+        ExplicitHeight = 250
+        DefaultCanvas = 'TGDIPlusCanvas'
+        ColorPaletteIndex = 13
+        object Series2: TBarSeries
+          MultiBar = mbStacked
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+        end
+        object Series3: TBarSeries
+          MultiBar = mbStacked
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+        end
+        object Series4: TBarSeries
+          MultiBar = mbStacked
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+        end
+        object Series5: TBarSeries
+          MultiBar = mbStacked
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+        end
       end
     end
   end
@@ -1101,8 +1463,8 @@ object Main: TMain
               19C30000000049454E44AE426082}
           end>
       end>
-    Left = 992
-    Top = 24
+    Left = 408
+    Top = 8
   end
   object VirtualImageList1: TVirtualImageList
     DisabledGrayscale = False
@@ -1135,7 +1497,7 @@ object Main: TMain
     ImageCollection = ImageCollection1
     Width = 48
     Height = 48
-    Left = 1096
-    Top = 24
+    Left = 472
+    Top = 8
   end
 end

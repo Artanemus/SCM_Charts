@@ -23,7 +23,7 @@ const
   PrefFileName = 'SCM_ChartsPref.ini';
   HelpPrefFileName = 'SCM_ChartsHelpPref.ini';
   SCMSubFolder = '\Artanemus\SCM\';
-  IniSectionName = 'Charts';
+  SCMSectionName = 'Charts';
 
   // DEPRECIATED
   SCMConnectionDefsFileName = 'SCMConnectionDefs.ini';

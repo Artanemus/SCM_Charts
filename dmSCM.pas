@@ -17,6 +17,13 @@ type
     dsSwimClub: TDataSource;
     qryMetersSwum: TFDQuery;
     dsMetersSwum: TDataSource;
+    DSChart: TDataSource;
+    qryChart: TFDQuery;
+    qryHistory: TFDQuery;
+    dsHistory: TDataSource;
+    dsMemberPB: TDataSource;
+    qryMemberPB: TFDQuery;
+    qryMemberList: TFDQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -158,3 +165,19 @@ begin
 end;
 
 end.
+
+(*
+void __fastcall TMemberDlg::qryMemberAfterScroll(TDataSet *DataSet) {
+	if (tblDistance->Active && tblStroke->Active) {
+		UpdateChart();
+	}
+	// to improve loading performance of the Member's Dialogue
+	// the 'personal bests' for a member are loaded on demand.
+	UpdateMemberPersonalBest();
+
+	// UPDATE DATETIME PICKER MEMBER'S DOB
+	dtpickDOB->Date = qryMember->FieldByName("DOB")->AsDateTime;
+
+}
+// ---------------------------------------------------------------------------
+*)
