@@ -36,8 +36,7 @@ object PickMember: TPickMember
     Width = 108
     Height = 33
     AllowAllUp = True
-    GroupIndex = 2
-    Down = True
+    GroupIndex = 1
     Caption = 'Is Active'
     OnClick = sbtnIsActiveClick
   end
@@ -47,7 +46,7 @@ object PickMember: TPickMember
     Width = 108
     Height = 33
     AllowAllUp = True
-    GroupIndex = 3
+    GroupIndex = 1
     Down = True
     Caption = 'Is Swimmer'
     OnClick = sbtnIsSwimmerClick
@@ -63,7 +62,26 @@ object PickMember: TPickMember
     ImageIndex = 0
     ImageName = 'outline_search_black_48dp'
   end
-  object lboxL: TListBox
+  object lblFound: TLabel
+    Left = 296
+    Top = 179
+    Width = 108
+    Height = 21
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Found: '
+  end
+  object lblFilterState: TLabel
+    Left = 296
+    Top = 206
+    Width = 108
+    Height = 75
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Not filtered.'
+    WordWrap = True
+  end
+  object lboxMembers: TListBox
     Left = 32
     Top = 51
     Width = 241
@@ -73,6 +91,7 @@ object PickMember: TPickMember
     MultiSelect = True
     Sorted = True
     TabOrder = 0
+    OnDblClick = lboxMembersDblClick
   end
   object btnOk: TButton
     Left = 296
@@ -129,6 +148,6 @@ object PickMember: TPickMember
           end>
       end>
     Left = 328
-    Top = 192
+    Top = 352
   end
 end

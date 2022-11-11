@@ -34,7 +34,7 @@ type
   end;
 
   TPickMember = class(TForm)
-    lboxL: TListBox;
+    lboxMembers: TListBox;
     btnOk: TButton;
     ImageCollection1: TImageCollection;
     edtSearch: TEdit;
@@ -42,6 +42,8 @@ type
     sbtnIsActive: TSpeedButton;
     sbtnIsSwimmer: TSpeedButton;
     VirtualImage1: TVirtualImage;
+    lblFound: TLabel;
+    lblFilterState: TLabel;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -52,6 +54,7 @@ type
     procedure sbtnIsArchivedClick(Sender: TObject);
     procedure sbtnIsActiveClick(Sender: TObject);
     procedure sbtnIsSwimmerClick(Sender: TObject);
+    procedure lboxMembersDblClick(Sender: TObject);
   private
     { Private declarations }
     scmMemberList: TObjectList;
@@ -60,6 +63,7 @@ type
     procedure ReadPreferences(iniFileName: string);
     procedure WritePreferences(iniFileName: string);
     procedure UpdateMemberList();
+    procedure UpdateFilter();
 
   public
     { Public declarations }
@@ -93,7 +97,16 @@ end;
 { MAIN CLASS }
 
 procedure TPickMember.btnOkClick(Sender: TObject);
+var
+  obj: TscmMember;
 begin
+  if lboxMembers.ItemIndex <> -1 then
+  begin
+    obj := lboxMembers.Items.Objects[lboxMembers.ItemIndex] as TscmMember;
+    fMemberID := obj.MemberID;
+  end
+  else
+    fMemberID := 0;
   ModalResult := mrOk;
 end;
 
@@ -103,31 +116,31 @@ var
   obj: TscmMember;
   s: string;
 begin
-  lboxL.clear;
+  lboxMembers.clear;
   for I := 0 to scmMemberList.Count - 1 do
   begin
     obj := (scmMemberList.Items[I] as TscmMember);
     s := obj.FName;
     // DO ALL
     if (length(edtSearch.Text) = 0) then
-      lboxL.Items.AddObject(s, obj)
+      lboxMembers.Items.AddObject(s, obj)
     else
     begin
       // FILTER - test for sub-string
       if ContainsText(s, edtSearch.Text) then
-        lboxL.Items.AddObject(s, obj);
+        lboxMembers.Items.AddObject(s, obj);
     end;
   end;
 end;
 
 procedure TPickMember.btnRefreshClick(Sender: TObject);
 begin
-  lboxL.Refresh;
+  UpdateMemberList;
 end;
 
 procedure TPickMember.FormCreate(Sender: TObject);
 var
-iniFileName: string;
+  iniFileName: string;
 begin
   fMemberID := 0;
   fSwimClubID := 1;
@@ -139,6 +152,8 @@ begin
   iniFileName := GetSCMPreferenceFileName;
   if FileExists(iniFileName) then
     ReadPreferences(iniFileName);
+  // SCM.qryMemberList.Filter
+  UpdateFilter;
   // init objects and members listbox
   UpdateMemberList;
   fInit := false; // flag - initialization done
@@ -173,6 +188,11 @@ begin
   edtSearch.SetFocus;
 end;
 
+procedure TPickMember.lboxMembersDblClick(Sender: TObject);
+begin
+  btnOkClick(Self);
+end;
+
 procedure TPickMember.ReadPreferences(iniFileName: string);
 var
   iFile: TIniFile;
@@ -188,6 +208,7 @@ procedure TPickMember.sbtnIsActiveClick(Sender: TObject);
 begin
   if not fInit then
   begin
+    UpdateFilter;
     UpdateMemberList;
   end;
 end;
@@ -196,6 +217,7 @@ procedure TPickMember.sbtnIsArchivedClick(Sender: TObject);
 begin
   if not fInit then
   begin
+    UpdateFilter;
     UpdateMemberList;
   end;
 end;
@@ -204,8 +226,43 @@ procedure TPickMember.sbtnIsSwimmerClick(Sender: TObject);
 begin
   if not fInit then
   begin
+    UpdateFilter;
     UpdateMemberList;
   end;
+end;
+
+procedure TPickMember.UpdateFilter;
+begin
+  // Adhere to precedence ...
+  if sbtnIsArchived.Down then
+  begin
+    SCM.qryMemberList.Filter := 'IsArchived = 1';
+    lblFilterState.Caption := 'Archived members.';
+  end
+  else if sbtnIsActive.Down then
+  begin
+    SCM.qryMemberList.Filter := 'IsArchived = 0 AND IsActive = 1';
+    lblFilterState.Caption := 'Not archived and is an active members.';
+  end
+  else if sbtnIsSwimmer.Down then
+  begin
+    SCM.qryMemberList.Filter :=
+      'IsArchived = 0 AND IsActive = 1 AND IsSwimmer = 1';
+    lblFilterState.Caption := 'Not archived, active and swims.';
+  end
+  else
+  begin
+    SCM.qryMemberList.Filter := '';
+    lblFilterState.Caption := 'All club members.';
+  end;
+
+  if length(SCM.qryMemberList.Filter) > 0 then
+  begin
+    if not SCM.qryMemberList.Filtered then
+      SCM.qryMemberList.Filtered := true;
+  end
+  else
+    SCM.qryMemberList.Filtered := false;
 end;
 
 procedure TPickMember.UpdateMemberList;
@@ -214,23 +271,27 @@ var
   j: integer;
   s: string;
 begin
-  // Populate the lboxL with members details
+  // Populate the Members ListBox.
   if Assigned(SCM) then
   begin
     if not Assigned(SCM.qryMemberList.Connection) then
       SCM.qryMemberList.Connection := SCM.scmConnection;
+    if SCM.qryMemberList.Active then
+      SCM.qryMemberList.Close;
     SCM.qryMemberList.ParamByName('ISARCHIVED').AsBoolean :=
       sbtnIsArchived.Down;
     SCM.qryMemberList.ParamByName('ISACTIVE').AsBoolean := sbtnIsActive.Down;
     SCM.qryMemberList.ParamByName('ISSWIMMER').AsBoolean := sbtnIsSwimmer.Down;
-    // SCM.qryMemberList.ParamByName('SWIMCLUBID').AsBoolean := fSwimClubID;
+    SCM.qryMemberList.ParamByName('SWIMCLUBID').AsInteger := fSwimClubID;
+    UpdateFilter; // ASSERT FILTER STATE ...
     SCM.qryMemberList.Open;
     if SCM.qryMemberList.Active then
     begin
+      lblFound.Caption := 'Found: ' + IntToStr(SCM.qryMemberList.RecordCount);
       // destroy list objects
       scmMemberList.clear;
       // clear list of items
-      lboxL.Items.clear;
+      lboxMembers.Items.clear;
       // create, init objects :: fill member list
       while not SCM.qryMemberList.Eof do
       begin
@@ -241,7 +302,7 @@ begin
         obj.FName := SCM.qryMemberList.FieldByName('FName').AsString;
         j := scmMemberList.Add(obj);
         s := SCM.qryMemberList.FieldByName('FName').AsString;
-        lboxL.Items.AddObject(s, scmMemberList.Items[j]);
+        lboxMembers.Items.AddObject(s, scmMemberList.Items[j]);
         SCM.qryMemberList.Next;
       end;
     end;

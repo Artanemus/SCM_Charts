@@ -17,12 +17,12 @@ type
     dsSwimClub: TDataSource;
     qryMetersSwum: TFDQuery;
     dsMetersSwum: TDataSource;
-    DSChart: TDataSource;
-    qryChart: TFDQuery;
+    dsRaceTime: TDataSource;
+    qryRaceTime: TFDQuery;
     qryHistory: TFDQuery;
     dsHistory: TDataSource;
-    dsMemberPB: TDataSource;
-    qryMemberPB: TFDQuery;
+    dsPersonalBest: TDataSource;
+    qryPersonalBest: TFDQuery;
     qryMemberList: TFDQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
@@ -180,4 +180,27 @@ void __fastcall TMemberDlg::qryMemberAfterScroll(TDataSet *DataSet) {
 
 }
 // ---------------------------------------------------------------------------
+
+bool __fastcall TMemberDlg::LocateMemberID(int aMemberID) {
+	bool LocateSuccess;
+	TLocateOptions SearchOptions;
+	Variant locvalues[2];
+	LocateSuccess = false;
+	// .. SwimClubID
+	if (dsMember->DataSet->Active) {
+		locvalues[0] = Variant(aMemberID);
+		locvalues[1] =
+			Variant(dsMember->DataSet->FieldByName("SwimClubID")->AsInteger);
+		SearchOptions.Clear();
+		SearchOptions << loPartialKey;
+		try {
+			LocateSuccess = dsMember->DataSet->Locate("MemberID;SwimClubID",
+				VarArrayOf(locvalues, 1), SearchOptions);
+		}
+		catch (...) {
+			LocateSuccess = false;
+		}
+	}
+	return LocateSuccess;
+}
 *)

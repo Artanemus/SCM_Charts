@@ -10,7 +10,8 @@ uses
   dlgBasicLogin in 'dlgBasicLogin.pas' {BasicLogin},
   Vcl.Themes,
   Vcl.Styles,
-  dlgAbout in 'dlgAbout.pas' {About};
+  dlgAbout in 'dlgAbout.pas' {About},
+  dlgPickSeason in 'dlgPickSeason.pas' {PickSeason};
 
 {$R *.res}
 

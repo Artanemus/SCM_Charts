@@ -14,6 +14,7 @@ object SCM: TSCM
   end
   object qrySwimClub: TFDQuery
     ActiveStoredUsage = [auDesignTime]
+    Active = True
     Connection = scmConnection
     SQL.Strings = (
       'USE [SwimClubMeet];'
@@ -58,6 +59,7 @@ object SCM: TSCM
       end>
   end
   object dsSwimClub: TDataSource
+    DataSet = qrySwimClub
     Left = 160
     Top = 120
   end
@@ -87,7 +89,7 @@ object SCM: TSCM
       'SET @IsArchived = 0;'
       'SET @IsActive = 1;'
       'SET @IsSwimmer = 1;'
-      'SET @DoSeason = 0;'
+      'SET @DoSeason = :DOSEASON; --0;'
       ''
       '-- DATE RANGE'
       'IF (@DoSeason = 1)'
@@ -147,6 +149,12 @@ object SCM: TSCM
         DataType = ftInteger
         ParamType = ptInput
         Value = 13
+      end
+      item
+        Name = 'DOSEASON'
+        DataType = ftBoolean
+        ParamType = ptInput
+        Value = False
       end>
   end
   object dsMetersSwum: TDataSource
@@ -154,12 +162,12 @@ object SCM: TSCM
     Left = 152
     Top = 192
   end
-  object DSChart: TDataSource
-    DataSet = qryChart
+  object dsRaceTime: TDataSource
+    DataSet = qryRaceTime
     Left = 149
-    Top = 280
+    Top = 312
   end
-  object qryChart: TFDQuery
+  object qryRaceTime: TFDQuery
     ActiveStoredUsage = [auDesignTime]
     Active = True
     Connection = scmConnection
@@ -213,7 +221,7 @@ object SCM: TSCM
       ''
       '')
     Left = 61
-    Top = 280
+    Top = 312
     ParamData = <
       item
         Name = 'STROKEID'
@@ -272,20 +280,21 @@ object SCM: TSCM
       #9',Distance.DistanceID'
       #9',Stroke.StrokeID')
     Left = 64
-    Top = 344
+    Top = 376
   end
   object dsHistory: TDataSource
     DataSet = qryHistory
     Left = 150
-    Top = 344
+    Top = 376
   end
-  object dsMemberPB: TDataSource
-    DataSet = qryMemberPB
+  object dsPersonalBest: TDataSource
+    DataSet = qryPersonalBest
     Left = 534
     Top = 304
   end
-  object qryMemberPB: TFDQuery
+  object qryPersonalBest: TFDQuery
     ActiveStoredUsage = [auDesignTime]
+    Active = True
     IndexFieldNames = 'MemberID'
     Connection = scmConnection
     FormatOptions.AssignedValues = [fvFmtDisplayTime]
@@ -334,7 +343,7 @@ object SCM: TSCM
         Name = 'MEMBERID'
         DataType = ftInteger
         ParamType = ptInput
-        Value = Null
+        Value = 19
       end>
   end
   object qryMemberList: TFDQuery
@@ -354,18 +363,18 @@ object SCM: TSCM
       ''
       ''
       'DECLARE @SwimClubID as integer;'
-      'SET @SwimClubID = 1;'
+      'SET @SwimClubID = :SWIMCLUBID; --1;'
       ''
       'SELECT [MemberID]'
       '     , [MembershipNum]'
       
         '     , SUBSTRING(CONCAT(FirstName, '#39' '#39', UPPER(LastName)), 0, 50)' +
         ' AS FName'
+      '     , IsArchived'
+      '     , IsActive'
+      '     , IsSwimmer'
       'FROM [SwimClubMeet].[dbo].[Member]'
-      'WHERE IsArchived = @IsArchived'
-      '      AND IsActive = @IsActive'
-      '      AND IsSwimmer = @IsSwimmer'
-      '      AND MembershipNum IS NOT NULL'
+      'WHERE MembershipNum IS NOT NULL'
       '      AND SwimClubID = @SwimClubID;')
     Left = 424
     Top = 88
@@ -387,6 +396,12 @@ object SCM: TSCM
         DataType = ftBoolean
         ParamType = ptInput
         Value = True
+      end
+      item
+        Name = 'SWIMCLUBID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = 1
       end>
   end
 end

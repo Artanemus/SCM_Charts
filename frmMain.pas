@@ -9,35 +9,27 @@ uses
   Vcl.ImgList, Vcl.VirtualImageList, Vcl.BaseImageCollection,
   Vcl.ImageCollection, Vcl.ExtCtrls, VclTee.TeeGDIPlus, Data.DB,
   VclTee.TeEngine, VclTee.TeeProcs, VclTee.Chart, VclTee.DBChart, dmSCM,
-  Vcl.DBCtrls, VCLTee.Series, VCLTee.TeeSpline, Vcl.Grids, Vcl.DBGrids;
+  Vcl.DBCtrls, VclTee.Series, VclTee.TeeSpline, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Buttons, Vcl.Imaging.pngimage;
 
 type
   TMain = class(TForm)
     Panel1: TPanel;
-    Panel2: TPanel;
     ImageCollection1: TImageCollection;
     VirtualImageList1: TVirtualImageList;
     btnAbout: TButton;
-    Button2: TButton;
-    Button3: TButton;
+    btnMenu: TButton;
+    btnRefresh: TButton;
     btnMember: TButton;
     GridPanel1: TGridPanel;
-    PieMeters: TDBChart;
     DBtxtSwimClubCaption: TDBText;
     DBtxtSwimClubNickName: TDBText;
     DBtxtStartOfSwimSeason: TDBText;
-    Series1: TPieSeries;
-    DBChart1: TDBChart;
+    ChartDistStroke: TDBChart;
     LineSeries1: TLineSeries;
-    Panel3: TPanel;
-    Button1: TButton;
-    Panel4: TPanel;
-    Panel5: TPanel;
-    Button4: TButton;
-    Panel6: TPanel;
-    DBgridHistoryPB: TDBGrid;
-    Panel7: TPanel;
-    DBChart2: TDBChart;
+    PanelPersonalBest: TPanel;
+    PanelBarChart: TPanel;
+    ChartMeters: TDBChart;
     Series2: TBarSeries;
     Series3: TBarSeries;
     Series4: TBarSeries;
@@ -53,16 +45,39 @@ type
     Button12: TButton;
     Button13: TButton;
     Button14: TButton;
+    sbtnHistory: TSpeedButton;
+    PanelPointChart: TPanel;
+    lblPBtitle: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label3: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    gridPersonalBest: TDBGrid;
+    PanelPieChart: TPanel;
+    PieMeters: TDBChart;
+    Series1: TPieSeries;
+    sbtnSeasonLength: TSpeedButton;
     Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAboutClick(Sender: TObject);
     procedure btnMemberClick(Sender: TObject);
+    procedure sbtnHistoryClick(Sender: TObject);
+    procedure sbtnSeasonLengthClick(Sender: TObject);
   private
     { Private declarations }
     fdefaultStyleName: string;
     fSwimClubID: integer;
+    fMemberID: integer;
+    fSeasonStart: TDateTime;
+    fSeasonLength: integer;
 
     procedure ReadPerferences(IniFileName: string);
+    procedure UpdateMetersSwum();
+    procedure UpdatePersonalBest();
 
   public
     { Public declarations }
@@ -76,7 +91,7 @@ implementation
 {$R *.dfm}
 
 uses dlgBasicLogin, Utility, Vcl.Themes, dlgAbout, System.UITypes,
-  FireDAC.Stan.Param, dlgPickMember;
+  FireDAC.Stan.Param, dlgPickMember, dlgPickSeason, DateUtils;
 
 procedure TMain.btnAboutClick(Sender: TObject);
 var
@@ -89,7 +104,7 @@ end;
 
 procedure TMain.btnMemberClick(Sender: TObject);
 var
-dlg: TPickMember;
+  dlg: TPickMember;
 begin
   // select the member
   dlg := TPickMember.Create(Self);
@@ -97,16 +112,9 @@ begin
   dlg.ShowModal;
   if dlg.MemberID > 0 then
   begin
-    SCM.qryMetersSwum.Close;
-    SCM.qryMetersSwum.ParamByName('MEMBERID').AsInteger := dlg.MemberID;
-    SCM.qryMetersSwum.Prepare;
-    SCM.qryMetersSwum.Open;
-    if SCM.qryMetersSwum.Active then
-    begin
-      PieMeters.Title.Text.Clear;
-      PieMeters.Title.Text.Add(SCM.qryMetersSwum.FieldByName('FName').AsString);
-    end;
-
+    fMemberID := dlg.MemberID;
+    UpdateMetersSwum;
+    UpdatePersonalBest;
   end;
 end;
 
@@ -163,6 +171,9 @@ begin
   // ----------------------------------------------------
   Application.ShowHint := True; // enable hints
   fSwimClubID := 1;
+  ShowHint := True;
+  fSeasonLength := 6;
+  fSeasonStart := IncMonth(Date(),6);
 
   // ----------------------------------------------------
   // R E A D   P R E F E R E N C E S .
@@ -188,6 +199,7 @@ begin
     DBtxtSwimClubCaption.DataSource := SCM.dsSwimClub;
     DBtxtSwimClubNickName.DataSource := SCM.dsSwimClub;
     DBtxtStartOfSwimSeason.DataSource := SCM.dsSwimClub;
+    fSeasonStart := SCM.qrySwimClub.FieldByName('StartOfSwimSeason').AsDateTime;
   end;
   Application.ShowHint := True;
 
@@ -202,112 +214,108 @@ begin
 
 end;
 
-end.
+procedure TMain.sbtnHistoryClick(Sender: TObject);
+begin
+  UpdateMetersSwum;
+end;
+
+procedure TMain.sbtnSeasonLengthClick(Sender: TObject);
+var
+dlg: TPickSeason;
+begin
+  dlg := TPickSeason.Create(Self);
+  dlg.CalendarPicker1.Date := fSeasonStart;
+  dlg.sedtSeasonLength.Value := fSeasonLength;
+  dlg.ShowModal;
+  fSeasonStart :=  dlg.CalendarPicker1.Date;
+  fSeasonLength := dlg.sedtSeasonLength.Value;
+  dlg.Free;
+end;
+
+procedure TMain.UpdateMetersSwum;
+var
+  doSeason: boolean;
+begin
+  doSeason := True;
+  if sbtnHistory.Down then
+    doSeason := false;
+  SCM.qryMetersSwum.Close;
+  SCM.qryMetersSwum.ParamByName('MEMBERID').AsInteger := fMemberID;
+  SCM.qryMetersSwum.ParamByName('DOSEASON').AsBoolean := doSeason;
+  SCM.qryMetersSwum.Prepare;
+  SCM.qryMetersSwum.Open;
+  if SCM.qryMetersSwum.Active then
+  begin
+    PieMeters.Title.Text.Clear;
+    PieMeters.Title.Text.Add(SCM.qryMetersSwum.FieldByName('FName').AsString);
+    PieMeters.SubTitle.Text.Clear;
+    if doSeason then
+      PieMeters.SubTitle.Text.Add('Meters swum for the swimming season.')
+    else
+      PieMeters.SubTitle.Text.Add('Full history - meters swum.');
+    PieMeters.RefreshData;
+  end;
+end;
+
+procedure TMain.UpdatePersonalBest;
+var
+  doSeason: boolean;
+begin
+  doSeason := True;
+  if sbtnHistory.Down then
+    doSeason := false;
+  SCM.qryPersonalBest.DisableControls;
+  SCM.qryPersonalBest.Close;
+  SCM.qryPersonalBest.ParamByName('MEMBERID').AsInteger := fMemberID;
+  // SCM.qryPersonalBest.ParamByName('DOSEASON').AsBoolean := doSeason;
+  SCM.qryPersonalBest.Prepare;
+  SCM.qryPersonalBest.Open;
+  if SCM.qryPersonalBest.Active then
+  begin
+    if doSeason then
+      lblPBtitle.Caption := 'PERSONAL BEST FOR THE SEASON'
+    else
+      lblPBtitle.Caption := 'PERSONAL BEST - ALL TIME';
+  end
+  else
+    lblPBtitle.Caption := 'PERSONAL BEST';
+  SCM.qryPersonalBest.EnableControls;
+end;
 
 (*
 
-void __fastcall TMemberDlg::UpdateChart() {
-	int DistanceID, StrokeID;
-	String s;
-	if (qryChart->Active)
-		qryChart->Close();
-	DistanceID = fArrayDistance[cmboDistance->ItemIndex];
-	qryChart->ParamByName("DISTANCEID")->AsInteger = DistanceID;
-	StrokeID = fArrayStroke[cmboStroke->ItemIndex];
-	qryChart->ParamByName("STROKEID")->AsInteger = StrokeID;
-	qryChart->ParamByName("MEMBERID")->AsInteger =
-		qryMember->FieldByName("MemberID")->AsInteger;
-	qryChart->Prepare();
-	qryChart->Open();
-	DBChart1->Title->Text->Clear();
-	DBChart1->Title->Text->Add(qryMember->FieldByName("FName")->AsString);
-	DBChart1->SubTitle->Text->Clear();
-	if (qryChart->IsEmpty()) {
-		DBChart1->SubTitle->Text->Add("No data for this distance and stroke");
-	}
-	else {
-		s = qryChart->FieldByName("cDistance")->AsString + " - " +
-			qryChart->FieldByName("cStroke")->AsString;
-		DBChart1->SubTitle->Text->Add(s);
-	}
-	DBChart1->RefreshData();
-}
-
-
-
-bool __fastcall TMemberDlg::LocateMemberID(int aMemberID) {
-	bool LocateSuccess;
-	TLocateOptions SearchOptions;
-	Variant locvalues[2];
-	LocateSuccess = false;
-	// .. SwimClubID
-	if (dsMember->DataSet->Active) {
-		locvalues[0] = Variant(aMemberID);
-		locvalues[1] =
-			Variant(dsMember->DataSet->FieldByName("SwimClubID")->AsInteger);
-		SearchOptions.Clear();
-		SearchOptions << loPartialKey;
-		try {
-			LocateSuccess = dsMember->DataSet->Locate("MemberID;SwimClubID",
-				VarArrayOf(locvalues, 1), SearchOptions);
-		}
-		catch (...) {
-			LocateSuccess = false;
-		}
-	}
-	return LocateSuccess;
-}
-
-void __fastcall TMemberDlg::DBChart1GetAxisLabel(TChartAxis *Sender,
-	TChartSeries *Series, int ValueIndex, UnicodeString &LabelText) {
-	TFDQuery *qry;
-	TDateTime dt;
-	TLocateOptions SearchOptions;
-	Variant v[1]; // VarArray
-	bool Success;
-	// replace axis label with session date
-	if (Sender == DBChart1->BottomAxis) {
-		if (Series != nullptr) {
-			if (Series->DataSource != nullptr) {
-				qry = reinterpret_cast<TFDQuery*>(Series->DataSource);
-				if (qry->Active == true) {
-					v[0] = Variant((ValueIndex + 1));
-					SearchOptions.Clear();
-					Success = qry->Locate("ChartX", VarArrayOf(v, 0),
-						SearchOptions);
-					if (Success) {
-						dt = qry->FieldByName("SessionStart")->AsDateTime;
-						LabelText = dt.DateString();
-					}
-					else {
-						LabelText = "ERR";
-					}
-				}
-			}
-		}
-	}
-}
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-
-void __fastcall TMemberDlg::UpdateMemberPersonalBest(void) {
-	int id;
-	id = dsMember->DataSet->FieldByName("MemberID")->AsInteger;
-	// to improve loading performance of the Member's Dialogue
-	// the 'personal bests' for a member are loaded on demand.
-	if (CurrMemberPersonalBestID != id) {
-		if (qryMemberPBonDemand->Active == true)
-			qryMemberPBonDemand->Close();
-		qryMemberPBonDemand->ParamByName("MEMBERID")->AsInteger = id;
-		// ensures params changes are used
-		qryMemberPBonDemand->Prepare();
-		qryMemberPBonDemand->Open();
-		CurrMemberPersonalBestID = id;
-	}
-	else {
-		// do nothing ...
-	}
-}
+  void __fastcall TMemberDlg::DBChart1GetAxisLabel(TChartAxis *Sender,
+  TChartSeries *Series, int ValueIndex, UnicodeString &LabelText) {
+  TFDQuery *qry;
+  TDateTime dt;
+  TLocateOptions SearchOptions;
+  Variant v[1]; // VarArray
+  bool Success;
+  // replace axis label with session date
+  if (Sender == DBChart1->BottomAxis) {
+  if (Series != nullptr) {
+  if (Series->DataSource != nullptr) {
+  qry = reinterpret_cast<TFDQuery*>(Series->DataSource);
+  if (qry->Active == true) {
+  v[0] = Variant((ValueIndex + 1));
+  SearchOptions.Clear();
+  Success = qry->Locate("ChartX", VarArrayOf(v, 0),
+  SearchOptions);
+  if (Success) {
+  dt = qry->FieldByName("SessionStart")->AsDateTime;
+  LabelText = dt.DateString();
+  }
+  else {
+  LabelText = "ERR";
+  }
+  }
+  }
+  }
+  }
+  }
 
 *)
+
+end.
+
+
