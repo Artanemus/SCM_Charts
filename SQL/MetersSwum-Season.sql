@@ -4,10 +4,7 @@ DECLARE @eDate AS DATETIME;
 DECLARE @SwimClubID AS integer;
 
 SET @SwimClubID = 1;
-SET @edate =
-(
-    SELECT StartOfSwimSeason FROM [SwimClub] WHERE SwimClubID = @SwimClubID
-);
+SET @edate = (SELECT StartOfSwimSeason FROM [SwimClub] WHERE SwimClubID = @SwimClubID);
 SET @edate = DATEADD(MONTH, 7, @edate);
 
 

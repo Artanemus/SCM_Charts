@@ -11,7 +11,11 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   dlgAbout in 'dlgAbout.pas' {About},
-  dlgPickSeason in 'dlgPickSeason.pas' {PickSeason};
+  dlgPickSeason in 'dlgPickSeason.pas' {PickSeason},
+  frmDistStroke in 'frmDistStroke.pas' {DistStroke},
+  frmMetersSwum in 'frmMetersSwum.pas' {MetersSwum},
+  frmPersonalBest in 'frmPersonalBest.pas' {PersonalBest},
+  frmShape in 'frmshape.pas';
 
 {$R *.res}
 

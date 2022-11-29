@@ -24,6 +24,10 @@ type
     dsPersonalBest: TDataSource;
     qryPersonalBest: TFDQuery;
     qryMemberList: TFDQuery;
+    qryMetersSwumTot: TFDQuery;
+    MetersSwumTot: TDataSource;
+    qryMemberStat: TFDQuery;
+    dsMemberStat: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -171,6 +175,7 @@ void __fastcall TMemberDlg::qryMemberAfterScroll(TDataSet *DataSet) {
 	if (tblDistance->Active && tblStroke->Active) {
 		UpdateChart();
 	}
+
 	// to improve loading performance of the Member's Dialogue
 	// the 'personal bests' for a member are loaded on demand.
 	UpdateMemberPersonalBest();
