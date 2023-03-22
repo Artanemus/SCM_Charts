@@ -37,10 +37,10 @@ type
   public
     { Public declarations }
     procedure ActivateTable();
-    procedure SimpleLoadSettingString(Section, Name: string; var Value: string);
-    procedure SimpleMakeTemporyFDConnection(Server, User, Password: string;
-      OsAuthent: boolean);
-    procedure SimpleSaveSettingString(Section, Name, Value: string);
+//    procedure SimpleLoadSettingString(Section, Name: string; var Value: string);
+//    procedure SimpleMakeTemporyFDConnection(Server, User, Password: string;
+//      OsAuthent: boolean);
+//    procedure SimpleSaveSettingString(Section, Name, Value: string);
 
     property IsActive: boolean read FIsActive write FIsActive;
 
@@ -98,6 +98,8 @@ begin
     end;
   end;
 end;
+
+{
 
 procedure TSCM.SimpleLoadSettingString(Section, Name: string;
   var Value: string);
@@ -168,44 +170,7 @@ begin
 
 end;
 
+}
+
 end.
 
-(*
-void __fastcall TMemberDlg::qryMemberAfterScroll(TDataSet *DataSet) {
-	if (tblDistance->Active && tblStroke->Active) {
-		UpdateChart();
-	}
-
-	// to improve loading performance of the Member's Dialogue
-	// the 'personal bests' for a member are loaded on demand.
-	UpdateMemberPersonalBest();
-
-	// UPDATE DATETIME PICKER MEMBER'S DOB
-	dtpickDOB->Date = qryMember->FieldByName("DOB")->AsDateTime;
-
-}
-// ---------------------------------------------------------------------------
-
-bool __fastcall TMemberDlg::LocateMemberID(int aMemberID) {
-	bool LocateSuccess;
-	TLocateOptions SearchOptions;
-	Variant locvalues[2];
-	LocateSuccess = false;
-	// .. SwimClubID
-	if (dsMember->DataSet->Active) {
-		locvalues[0] = Variant(aMemberID);
-		locvalues[1] =
-			Variant(dsMember->DataSet->FieldByName("SwimClubID")->AsInteger);
-		SearchOptions.Clear();
-		SearchOptions << loPartialKey;
-		try {
-			LocateSuccess = dsMember->DataSet->Locate("MemberID;SwimClubID",
-				VarArrayOf(locvalues, 1), SearchOptions);
-		}
-		catch (...) {
-			LocateSuccess = false;
-		}
-	}
-	return LocateSuccess;
-}
-*)

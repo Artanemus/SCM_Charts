@@ -4,10 +4,8 @@ uses
   Vcl.Forms,
   frmMain in 'frmMain.pas' {Main},
   Utility in 'Utility.pas',
-  exeinfo in 'exeinfo.pas',
   dlgPickMember in 'dlgPickMember.pas' {PickMember},
   dmSCM in 'dmSCM.pas' {SCM: TDataModule},
-  dlgBasicLogin in 'dlgBasicLogin.pas' {BasicLogin},
   Vcl.Themes,
   Vcl.Styles,
   dlgAbout in 'dlgAbout.pas' {About},
@@ -15,7 +13,11 @@ uses
   frmDistStroke in 'frmDistStroke.pas' {DistStroke},
   frmMetersSwum in 'frmMetersSwum.pas' {MetersSwum},
   frmPersonalBest in 'frmPersonalBest.pas' {PersonalBest},
-  frmShape in 'frmshape.pas';
+  frmshape in 'frmshape.pas',
+  exeinfo in '..\SCM_SHARED\exeinfo.pas',
+  SCMUtility in '..\SCM_SHARED\SCMUtility.pas',
+  dlgBasicLogin in '..\SCM_SHARED\dlgBasicLogin.pas' {BasicLogin},
+  SCMSimpleConnect in '..\SCM_SHARED\SCMSimpleConnect.pas';
 
 {$R *.res}
 
